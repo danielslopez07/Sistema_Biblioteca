@@ -1,0 +1,24 @@
+{
+    "101" : {
+        "nombre" : "Juan Perez", 
+        "id" : 101, 
+        "password" : "Juanito41", 
+        "estado" : true
+    }, 
+    "430" : {
+        "nombre" : "Ximena Gonzales", 
+        "id" : 430, 
+        "password" : "ximenapatito21", 
+        "estado" : false
+    }, 
+    "666" : {
+        "nombre" : "Rodrigo Hernandez", 
+        "id" : 666, 
+        "password" : "123456", 
+        "estado" : false
+    }, 
+    "NoUser" : {
+        "admin" : false, 
+        "estado" : false
+    }
+}

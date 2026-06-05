@@ -1,0 +1,23 @@
+{
+    "1234" : {
+        "titulo" : "El principito", 
+        "autor" : "Antoine", 
+        "idioma" : "Español", 
+        "id" : 1234, 
+        "estado" : true
+    }, 
+    "1403" : {
+        "titulo" : "Soy leyenda", 
+        "autor" : "Richard Matheson", 
+        "idioma" : "Español", 
+        "id" : 1403, 
+        "estado" : true
+    }, 
+    "7745" : {
+        "titulo" : "Harry potter", 
+        "autor" : "J. K. Rowling", 
+        "idioma" : "Inglés", 
+        "id" : 7745, 
+        "estado" : true
+    }
+}
