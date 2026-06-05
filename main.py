@@ -1,9 +1,10 @@
 import os
 from rich.prompt import Prompt, IntPrompt
-from clase_menu import mostrar_menu_principal, mostrar_catalogo, mostrar_cuenta, mostrar_configuracion
+from menus import mostrar_menu_principal, mostrar_catalogo, mostrar_cuenta, mostrar_configuracion
 from clase_Usuario import Usuario
 from clase_Libro import Libro
 from clase_Prestamo import Prestamo
+from clase_Padre import data_usuarios_json
 
 """ 
 Archivo principal del sistema de biblioteca.
@@ -25,7 +26,7 @@ while programa:
     
     os.system("cls")
     
-    if respuesta == "1":
+    if respuesta == "1" and not data_usuarios_json["NoUser"]["admin"]:
             catalogo = True
             usuario.load(usuario.check())
             while catalogo:
@@ -70,8 +71,12 @@ while programa:
                     
                 if respuesta == "1":
                     catalogo = False
+                    
+    if respuesta == "1" and data_usuarios_json["NoUser"]["admin"]:
+        os.system("cls")
+        print("En el modo desarrollador no puedes entrar en el catalogo")
     
-    if respuesta == "2" and not usuario.check():
+    if respuesta == "2" and not usuario.check() and not data_usuarios_json["NoUser"]["admin"]:
         cuenta = True
         while cuenta:
             mostrar_cuenta()
@@ -126,59 +131,191 @@ while programa:
             if respuesta == "1":
                 cuenta = False
     
-    if respuesta == "2" and usuario.check():
-        cuenta = True
-        while cuenta:
-            mostrar_cuenta()
-            respuesta = Prompt.ask("Selecciona una opcion:", choices=["1", "2", "3"])
+    if respuesta == "2" and usuario.check() and not data_usuarios_json["NoUser"]["admin"]:
+        usuario.load(usuario.check())
+        prestamoul = usuario.revisar_prestamos()
+        os.system("cls")
+        if prestamoul:
+            cuenta = True
             os.system("cls")
-            
-            if respuesta == "2":
+            while cuenta:
                 mostrar_cuenta()
-                respuesta = Prompt.ask("¿Seguro que quieres cerrar sesión?", choices=["Si","No"])
+                respuesta = Prompt.ask("Selecciona una opcion:", choices=["1", "2", "3"])
                 os.system("cls")
-                if respuesta == "Si":
-                    usuario.load(usuario.check())
-                    usuario.log_out()
-                    usuario.update()
-                    cuenta = False
-                    
-            if respuesta == "3":
-                mostrar_cuenta()
-                devolver = True
-                while devolver:
-                    respuesta = IntPrompt.ask("¿Que libro quieres devolver?")
-                    libro = Libro()
-                    respuesta = libro.load(respuesta)
-                    if respuesta:
-                        os.system("cls")
+                
+                if respuesta == "2":
+                    mostrar_cuenta()
+                    respuesta = Prompt.ask("¿Seguro que quieres cerrar sesión?", choices=["Si","No"])
+                    os.system("cls")
+                    if respuesta == "Si":
                         usuario.load(usuario.check())
-                        respuesta = usuario.devolver_libro(libro.id)
-                        prestamo = Prestamo()
-                        prestamo.load(respuesta)
-                        os.system("cls")
-                        prestamo.destroy()
-                        devolver = False
-                        os.system("cls")
-                    else:
-                        respuesta = Prompt.ask("¿Continuar?", choices=["Si", "No"])
-                        if respuesta == "No":
+                        usuario.log_out()
+                        usuario.update()
+                        cuenta = False
+                        
+                if respuesta == "3":
+                    mostrar_cuenta()
+                    devolver = True
+                    while devolver:
+                        respuesta = IntPrompt.ask("¿Que libro quieres devolver?")
+                        libro = Libro()
+                        respuesta = libro.load(respuesta)
+                        if respuesta:
                             os.system("cls")
+                            usuario.load(usuario.check())
+                            respuesta = usuario.devolver_libro(libro.id)
+                            prestamo = Prestamo()
+                            prestamo.load(respuesta)
+                            os.system("cls")
+                            prestamo.destroy()
                             devolver = False
-                    
-                                              
-            if respuesta == "1":
-                cuenta = False
+                            os.system("cls")
+                            cuenta = False
+                        else:
+                            respuesta = Prompt.ask("¿Continuar?", choices=["Si", "No"])
+                            if respuesta == "No":
+                                os.system("cls")
+                                devolver = False
+                        
+                                                
+                if respuesta == "1":
+                    cuenta = False
+        else:
+            cuenta = True
+            os.system("cls")
+            while cuenta:
+                mostrar_cuenta()
+                respuesta = Prompt.ask("Selecciona una opcion:", choices=["1", "2"])
+                os.system("cls")
+                
+                if respuesta == "2":
+                    mostrar_cuenta()
+                    respuesta = Prompt.ask("¿Seguro que quieres cerrar sesión?", choices=["Si","No"])
+                    os.system("cls")
+                    if respuesta == "Si":
+                        usuario.load(usuario.check())
+                        usuario.log_out()
+                        usuario.update()
+                        cuenta = False
+                                                                        
+                if respuesta == "1":
+                    cuenta = False
+    
+    if respuesta == "2" and data_usuarios_json["NoUser"]["admin"]:
+        os.system("cls")
+        print("En el modo desarrollador no puedes entrar a tu cuenta")
 
 
-    if respuesta == "3":
+    if respuesta == "3" and not data_usuarios_json["NoUser"]["admin"]:
         configurar = True
         while configurar:
             mostrar_configuracion()
             respuesta = Prompt.ask("Selecciones una opcion:", choices=["1", "2"])
             os.system("cls")
             if respuesta == "2":
-                print("Aun no se puede")
+                # modo desarrollador
+                mostrar_configuracion()
+                print("En el modo desarrollador solamente podras gestionar los libros de la biblioteca")
+                respuesta = Prompt.ask("Escribe la contraseña")
+                if respuesta == "Admin":
+                    print("¡Contraseña correcta!")
+                    respuesta = Prompt.ask("¿Seguro que quieres continuar?", choices=["Si", "No"])
+                    if respuesta == "Si":
+                        usuario.NoUsuario()
+                        os.system("cls")
+                        configurar = False
+                        print("Entraste como desarrollador")
+                    else:
+                        os.system("cls")
+                else:
+                    os.system("cls")
+                    print("¡Contraseña incorrecta!")
+                
+                  
+                
+            if respuesta == "1":
+                configurar = False
+    
+    if respuesta == "3" and data_usuarios_json["NoUser"]["admin"]:
+        configurar = True
+        while configurar:
+            mostrar_configuracion()
+            respuesta = Prompt.ask("Selecciones una opcion:", choices=["1", "2", "3", "4", "5"])
+            os.system("cls")
+            if respuesta == "2":
+                # modo desarrollador
+                mostrar_configuracion()
+                respuesta = Prompt.ask("¿Seguro que quieres continuar?", choices=["Si", "No"])
+                if respuesta == "Si":
+                    usuario.NoUsuario()
+                    os.system("cls")
+                    configurar = False
+                    print("Saliste del modo desarrollador")
+                else:
+                    os.system("cls")
+            
+            if respuesta == "3":
+                mostrar_configuracion()
+                nombre = Prompt.ask("Escribe el nombre del libro")      
+                autor = Prompt.ask("Escribe el nombre del autor")
+                idioma = Prompt.ask("Escribe en que idioma esta el libro")
+                iD = IntPrompt.ask("Escribe un ID unico para el libro")
+                libro = Libro(nombre, autor, idioma, iD)
+                respuesta = libro.save()
+                if respuesta:
+                    respuesta = Prompt.ask("¿Seguro que quieres continuar?", choices=["Si", "No"])
+                    if respuesta == "Si":
+                        os.system("cls")
+                        print("Libro creado exitosamente")
+                    else:
+                        libro.destroy()
+                        os.system("cls")
+                else:
+                    os.system("cls")
+                    print("Ya existe un libro con ese ID")
+                    
+            if respuesta == "4":
+                mostrar_configuracion()
+                iD = IntPrompt.ask("Escribe el ID del libro")
+                libro = Libro()
+                respuesta = libro.load(iD)
+                if respuesta and libro.estado:
+                    nombre = Prompt.ask("Escribe el nuevo nombre del libro (presiona enter para no modificarlo)", default=libro.titulo)      
+                    autor = Prompt.ask("Escribe el nuevo nombre del autor (presiona enter para no modificarlo)", default=libro.autor)
+                    idioma = Prompt.ask("Escribe en que idioma esta el libro (presiona enter para no modificarlo)", default=libro.idioma)
+                    libro.titulo = nombre
+                    libro.autor = autor
+                    libro.idioma = idioma
+                    respuesta = Prompt.ask("¿Seguro que quieres continuar?", choices=["Si", "No"])
+                    if respuesta == "Si":
+                        os.system("cls")
+                        libro.update()
+                        print("Libro modificado exitosamente")
+                    else:
+                        os.system("cls")
+                        print("No se modifico el libro")
+                else:
+                    os.system("cls")
+                    print("No hay un libro con ese ID o no esta disponible")
+                    
+            if respuesta == "5":
+                mostrar_configuracion()
+                iD = IntPrompt.ask("Escribe el ID del libro")
+                libro = Libro()
+                respuesta = libro.load(iD)
+                if respuesta and libro.estado:
+                    respuesta = Prompt.ask("¿Seguro que quieres continuar?", choices=["Si", "No"])
+                    if respuesta == "Si":
+                        os.system("cls")
+                        libro.destroy()
+                        print("Libro eliminado exitosamente")
+                    else:
+                        os.system("cls")
+                        print("No se elimino el libro")
+                else:
+                    os.system("cls")
+                    print("No hay un libro con ese ID o no esta disponible")
+                
             if respuesta == "1":
                 configurar = False
         

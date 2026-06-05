@@ -29,11 +29,13 @@ class Libro(Padre):
         else:
             if data_lib_json.get(f"{self.id}"):
                 print("Ya existe un libro con ese ID")
+                return False
             else:
                 data_lib_json.update(self.write())
                 with open("data_lib.json", "w", encoding="utf-8") as archivo:
                     json.dump(data_lib_json, archivo, indent=4, separators=(", ", " : "), ensure_ascii=False)
                 print("Libro guardado exitosamente")
+                return True
 
     """
     Metodo para eliminar un libro del archivo

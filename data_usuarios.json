@@ -3,7 +3,7 @@
         "nombre" : "Juan Perez", 
         "id" : 101, 
         "password" : "Juanito41", 
-        "estado" : true
+        "estado" : false
     }, 
     "430" : {
         "nombre" : "Ximena Gonzales", 

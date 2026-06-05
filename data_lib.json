@@ -19,5 +19,75 @@
         "idioma" : "Inglés", 
         "id" : 7745, 
         "estado" : true
+    }, 
+    "1023" : {
+        "titulo" : "La sombra del viento", 
+        "autor" : "Carlos Ruiz Zafón", 
+        "idioma" : "Español", 
+        "id" : 1023, 
+        "estado" : true
+    }, 
+    "1847" : {
+        "titulo" : "Cien años de soledad", 
+        "autor" : "Gabriel García Márquez", 
+        "idioma" : "Español", 
+        "id" : 1847, 
+        "estado" : true
+    }, 
+    "2391" : {
+        "titulo" : "The Great Gatsby", 
+        "autor" : "F. Scott Fitzgerald", 
+        "idioma" : "Inglés", 
+        "id" : 2391, 
+        "estado" : true
+    }, 
+    "3410" : {
+        "titulo" : "Les Misérables", 
+        "autor" : "Victor Hugo", 
+        "idioma" : "Francés", 
+        "id" : 3410, 
+        "estado" : true
+    }, 
+    "4528" : {
+        "titulo" : "Don Quijote de la Mancha", 
+        "autor" : "Miguel de Cervantes", 
+        "idioma" : "Español", 
+        "id" : 4528, 
+        "estado" : true
+    }, 
+    "5632" : {
+        "titulo" : "Pride and Prejudice", 
+        "autor" : "Jane Austen", 
+        "idioma" : "Inglés", 
+        "id" : 5632, 
+        "estado" : true
+    }, 
+    "6745" : {
+        "titulo" : "Der Zauberberg", 
+        "autor" : "Thomas Mann", 
+        "idioma" : "Alemán", 
+        "id" : 6745, 
+        "estado" : true
+    }, 
+    "7854" : {
+        "titulo" : "Il Nome della Rosa", 
+        "autor" : "Umberto Eco", 
+        "idioma" : "Italiano", 
+        "id" : 7854, 
+        "estado" : true
+    }, 
+    "8967" : {
+        "titulo" : "Crime and Punishment", 
+        "autor" : "Fyodor Dostoevsky", 
+        "idioma" : "Ruso", 
+        "id" : 8967, 
+        "estado" : true
+    }, 
+    "9075" : {
+        "titulo" : "El Aleph", 
+        "autor" : "Jorge Luis Borges", 
+        "idioma" : "Español", 
+        "id" : 9075, 
+        "estado" : true
     }
 }

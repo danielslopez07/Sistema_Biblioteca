@@ -175,6 +175,30 @@ class Usuario(Padre):
             if data_prestamos_json[f"{x}"]["id_libro"] == id_libro:
                 resultado = data_prestamos_json[f"{x}"]["id"]
         return resultado
+    
+    def NoUsuario(self):
+        if data_usuarios_json["NoUser"]["admin"]:
+            actualizacion = {
+                "NoUser": {
+                    "admin": False,
+                    "estado": False
+                }
+            }
+            data_usuarios_json.update(actualizacion)
+            with open("data_usuarios.json", "w", encoding="utf-8") as archivo:
+                json.dump(data_usuarios_json, archivo, indent=4, separators=(", ", " : "), ensure_ascii=False)
+            print("Usuario actualizado exitosamente")
+        else:
+            actualizacion = {
+                "NoUser": {
+                    "admin": True,
+                    "estado": False
+                }
+            }
+            data_usuarios_json.update(actualizacion)
+            with open("data_usuarios.json", "w", encoding="utf-8") as archivo:
+                json.dump(data_usuarios_json, archivo, indent=4, separators=(", ", " : "), ensure_ascii=False)
+            print("Usuario actualizado exitosamente")     
         
 
 
